@@ -10,8 +10,8 @@ detected threats and mitigation strategies.
 
 # Methodology
 ## 1. Tools Used :
-  Wireshark: Utilized for importing, dissecting, and analyzing the packet capture data from
-  the text file. 
-  Image Analysis: The image "network capture expert info.png" was analyzed to extract
-  expert information summaries, focusing on detected anomalies and issues.
+    Wireshark: Utilized for importing, dissecting, and analyzing the packet capture data from
+    the text file. 
+    Image Analysis: The image "network capture expert info.png" was analyzed to extract
+    expert information summaries, focusing on detected anomalies and issues.
       
