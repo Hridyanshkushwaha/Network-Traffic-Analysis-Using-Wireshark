@@ -67,8 +67,10 @@ warranting further investigation.
 The image "network capture expert info.png" provides a summary of expert information, highlighting
 various anomalies and potential security issues. Below is a detailed breakdown:
   ### 1. Malformed Packets :
-     Observation: 30 occurrences of malformed TCP packets (Error, Malformed). 
+     Observation: 30 occurrences of malformed TCP packets (Error, Malformed).
+     
      Implication: Indicates potential packet corruption or manipulation, possibly an intrusion attempt, such as              exploits targeting TCP stack vulnerabilities or fuzzing attacks.
+     
      Mitigation: Implement deep packet inspection (DPI) to identify the source of malformed
      packets. Update network devices and servers with the latest patches to address known vulnerabilities
      (e.g., [Wireshark Documentation](https://www.wireshark.org/docs/)). Consider rate-limiting or
@@ -78,6 +80,7 @@ various anomalies and potential security issues. Below is a detailed breakdown:
 ###### a.Application name is not a string - TCP (5 occurrences, Error, Protocol):
         Suggests improperly formatted application-layer data, potentially indicating protocol misuse or an attempt to
         obfuscate malicious payloads.
+        
         Mitigation: Use intrusion detection systems (IDS) to monitor for unusual application-layer behavior. Enforce            strict protocol validation rules at the application layer and log all such incidents for
         further investigation (e.g., [RFC 793 for TCP](https://tools.ietf.org/html/rfc793)).
 
@@ -85,6 +88,7 @@ various anomalies and potential security issues. Below is a detailed breakdown:
         
         According to RFC3546, padding flags should only be set on the final packet. This anomaly could
         indicate improper packet construction or an attempt to hide data within padding fields (e.g., steganography or          data exfiltration). 
+        
          Mitigation: Enable packet payload inspection to detect hidden data in padding fields. Block or
          flag traffic exhibiting this behavior for manual review. Update firewall rules to enforce RFC
          compliance ([RFC 3546](https://tools.ietf.org/html/rfc3546)).
@@ -93,62 +97,76 @@ various anomalies and potential security issues. Below is a detailed breakdown:
     
     Suggests a protocol implementation error or an attack targeting QUIC's reliability
     features, given QUIC's early adoption phase. 
+    
     Mitigation: Monitor QUIC traffic with specialized tools (e.g., qlog analysis). Apply vendor patches for QUIC implementations and restrict QUIC usage to trusted endpoints if possible ([QUIC Protocol Specifications](https://quicwg.org/)). 
 ###### d. Ignored Unknown Record - TLS (3 occurrences, Warning, Protocol): 
     TLS records being ignored could indicate an unsupported or malicious extension, potentially part of a downgrade
     attack or reconnaissance.  
+    
     Mitigation: Enforce strict TLS version and cipher suite policies (e.g., disable outdated protocols like TLS            1.0/1.1). Use TLS inspection to log and analyze unknown records ([TLS Protocol Standards]                      (https://tools.ietf.org/html/rfc5246)).         
 
 ### 3. Sequence and Connection Issues:
 ###### a. Duplicate ACK (suspected) retransmission - TCP (4 occurrences, Note, Sequence):
     Duplicate ACKs can indicate network congestion or packet loss, but a "suspected" retransmission
     suggests potential packet injection or replay attacks. 
+    
     Mitigation: Enable TCP sequence number tracking and anomaly detection. Implement anti-replay mechanisms (e.g., timestamps or sequence validation) and monitor for unusual retransmission patterns. 
 ###### b. Connection reset (RST) - TCP (3 occurrences, Warning, Sequence): 
     Unexpected RST packets can indicate a legitimate session termination or an attack (e.g., RST injection to disrupt
     communication).
+    
     Mitigation: Log RST packets with source and destination details. Use firewall rules to block
     unauthorized RST injections and enable TCP checksum validation.
     
 ####### c. ACKed segment that wasn’t captured - TCP (1 occurrence, Warning, Sequence):
 
     Missing ACKed segments could indicate packet loss or selective capture, but might also suggest an out-of- band attack or spoofing. 
+    
     Mitigation: Increase capture buffer size and ensure full packet capture. Validate ACK sequences against expected       traffic patterns. 
 ###### d. Spurious retransmission - TCP (1 occurrence, Note, Sequence): 
     Can occur naturally, but a "suspected" label suggests potential packet manipulation or replay. 
+    
     Mitigation: Enable anti-replay protection (e.g., TCP sequence randomization) and monitor for repeated instances.
 
 ### 4. TLS and Decryption Issues :
 ###### a. Failed to decrypt handshake - TLS (147 occurrences, Warning, Decryption): 
     The highest count (147) indicates a significant issue with TLS decryption, likely due to missing keys, unsupported
     ciphers, or an attempt to bypass encryption. 
+    
     Mitigation: Ensure all TLS traffic is decrypted with valid keys (e.g., via a proxy or IDS). Enforce strong ciphers     (e.g., AES-256) and disable deprecated protocols. Investigate sources of un- decryptable traffic.
 ###### b. Legacy TLS version usage - TLS (66 occurrences, Chat, Decryption):
     Legacy TLS versions being detected suggest outdated clients or servers, which are more vulnerable to attacks like      POODLE or BEAST.
+    
     Mitigation: Enforce TLS 1.2 or 1.3 only. Update or replace legacy systems and monitor for downgrade attempts.
 
 ### 5. QUIC-Specific Anomalies :
 ###### a. Unknown QUIC connection. Missing Initial Packet - QUIC (1 occurrence, Note, Protocol):
     Missing initial QUIC packets could indicate incomplete capture or an attempt to hide connection
-    initiation
+    initiation.
+    
     Mitigation: Ensure full QUIC packet capture and validate connection initiation sequences. Restrict QUIC to known       applications.
 
 #Mitigation Strategies
 ### 1. Network Hardening:
     Deploy intrusion detection and prevention systems (IDS/IPS) to detect and block malformed
     packets and protocol anomalies. - Update all network devices, servers, and applications with the latest security     patches to address known vulnerabilities ([Wireshark Documentation](https://www.wireshark.org/docs/)). 
+    
     Enforce strict protocol compliance (e.g., RFC standards) and disable outdated protocols (e.g., TLS 1.0/1.1) to         reduce attack surface.
 ### 2. Traffic Monitoring and Logging:
-    - Increase packet capture granularity and enable full payload inspection to identify hidden threats. - Log all anomalies (e.g., malformed packets, RSTs, duplicate ACKs) with source and destination
-    details for forensic analysis. - Use behavioral analysis tools to detect unusual traffic patterns, enhancing           threat detection capabilities.
+    - Increase packet capture granularity and enable full payload inspection to identify hidden threats. - Log all anomalies (e.g., malformed packets, RSTs, duplicate ACKs) with source and destination details for forensic analysis.
+    
+    - Use behavioral analysis tools to detect unusual traffic patterns, enhancing threat detection capabilities.
 ### 3. Access Control:
     - Implement rate limiting and source IP whitelisting/blacklisting based on anomaly sources to
-    restrict malicious traffic. - Restrict QUIC and TLS usage to trusted applications and enforce strong cipher suites     (e.g., AES-256) to ensure secure communication.
+    restrict malicious traffic.
+    
+    - Restrict QUIC and TLS usage to trusted applications and enforce strong cipher suites     (e.g., AES-256) to ensure secure communication.
 ### 4. Incident Response:
     - Establish a process to investigate high-severity events (e.g., 147 failed TLS decryptions) and
     correlate with external threat intelligence for context. - Conduct regular penetration testing to identify and patch vulnerabilities, ensuring proactive security measures.
 
 # Conclusion
+
 This report integrates the initial network packet analysis with a detailed security analysis based on the
 provided data. The analysis revealed several potential security threats, including intrusion attempts, MITM attacks, DoS risks, and covert channels. By implementing the recommended mitigation
 strategies—such as network hardening, enhanced monitoring, access control, and incident
@@ -158,7 +176,7 @@ protocols and security measures, and is particularly relevant as of July 25, 202
 
 # Citations
 - [Wireshark Documentation](https://www.wireshark.org/docs/)
-- - [RFC 793: Transmission Control Protocol](https://tools.ietf.org/html/rfc793)
+-  [RFC 793: Transmission Control Protocol](https://tools.ietf.org/html/rfc793)
  - [RFC 3546: TCP Padding](https://tools.ietf.org/html/rfc3546)
- -  - [TLS Protocol Standards](https://tools.ietf.org/html/rfc5246)
-    - - [QUIC Protocol Specifications](https://quicwg.org/)
+ - [TLS Protocol Standards](https://tools.ietf.org/html/rfc5246)
+ -  [QUIC Protocol Specifications](https://quicwg.org/)
