@@ -33,6 +33,9 @@ detected threats and mitigation strategies.
     intrusions from the image data, with an emphasis on identifying threats and developing mitigation
     strategies. This involved examining high-severity errors, protocol misuse, and sequence issues.
 
+<img width="1030" height="349" alt="image" src="https://github.com/user-attachments/assets/2483d702-99c2-47c0-8059-17ec34e06bf2" />
+
+
 # Analysis and Findings
 ### Initial Analysis from File
 The initial analysis of the text file revealed the following key insights:
