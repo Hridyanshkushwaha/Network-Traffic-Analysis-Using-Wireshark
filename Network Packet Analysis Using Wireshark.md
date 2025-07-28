@@ -8,6 +8,8 @@ capture. This report integrates both analyses, with a particular focus on detect
 patterns, protocol anomalies, and potential intrusions, and concludes with a detailed account of
 detected threats and mitigation strategies.
 
+
+
 # Methodology
 ## 1. Tools Used :
     Wireshark: Utilized for importing, dissecting, and analyzing the packet capture data from
@@ -18,7 +20,7 @@ detected threats and mitigation strategies.
 ## 2. Data Collection :
     1.  Text File: The packet capture data from "Network packet capture.txt" was imported into
     Wireshark for detailed inspection. The capture includes 66 Ethernet frames with IPv6
-    packets, spanning from 06:02:41.750,498 to 06:03:17.342,144.
+    packets, spanning from 06:[.......] to 06:[.......].
     2. Image File: The image contains a table summarizing various events or issues detected in
     the network traffic, categorized by severity (Warning, Error, Chat, Note), group (Decryption, Malformed, Protocol,     Sequence), protocol (TLS, TCP, QUIC), and count (frequency of occurrence). This
     data was analyzed to identify potential security threats.
@@ -45,11 +47,11 @@ The initial analysis of the text file revealed the following key insights:
             EtherType `86|dd`.
     
 ##### 2. MAC Addresses:
-    Source MACs include `9a:82:01:3b:1e:91` and `f0:d5:bf:05:51:72`, with destination MACs alternating,
+    Source MACs include `9a:[removed due to security]` and `f0:d5:bf:x:y:z`, with destination MACs alternating,
     indicating bidirectional communication.
 
 ##### 3. IPv6 Addresses:
-    Source IP is `2409:4089:a183:f5b4:45df:2597:fafa:53d8` , and destination IP is `90c4:a3ea:e0e6:138c`. 
+    Source IP is `2409:[removed due to security reasons]` , and destination IP is `90c4:[....]`. 
     
  ##### 4. Protocols: 
     Distribution includes UDP (69.7%, 46 packets), TCP (13.6%, 9 packets), ESP (6.1%, 4
