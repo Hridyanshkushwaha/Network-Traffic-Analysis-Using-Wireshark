@@ -23,7 +23,7 @@ detected threats and mitigation strategies.
     the network traffic, categorized by severity (Warning, Error, Chat, Note), group (Decryption, Malformed, Protocol,     Sequence), protocol (TLS, TCP, QUIC), and count (frequency of occurrence). This
     data was analyzed to identify potential security threats.
 
-#Analysis Approach
+# Analysis Approach
 
     1. Initial Analysis: Focused on packet structure, traffic patterns, protocol identification, and
     potential anomalies from the text file. This included parsing Ethernet frame headers, identifying MAC    
