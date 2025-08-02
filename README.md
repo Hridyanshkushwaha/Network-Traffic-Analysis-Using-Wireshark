@@ -7,10 +7,13 @@ Whether you are a network administrator, a security professional, or just someon
 Wireshark provides a user-friendly graphical interface, which displays captured packets with detailed information such as source and destination addresses, protocol types, and packet content. Users can apply filters to analyze specific types of traffic, search through capture files, and visualize network patterns. Additionally, Wireshark supports both wired and wireless networks, including advanced features like packet decryption for encrypted protocols like SSL/TLS.
 # Default Columns in an Output from Packet Capture
 <img width="783" height="429" alt="image" src="https://github.com/user-attachments/assets/e503771c-dcc4-46ed-8601-0f9cf90b987a" />
+
 # Logical Operators
 <img width="775" height="371" alt="image" src="https://github.com/user-attachments/assets/141fa80d-c496-4e75-b2ba-98d3bb206ab7" />
+
 # Filtering Packets in Wireshark (Display Filters)
 <img width="749" height="321" alt="image" src="https://github.com/user-attachments/assets/64c32a2d-1a6c-42f4-bfa1-839b1bf7e485" />
+
 # Main Toolbar Items
 <img width="849" height="604" alt="image" src="https://github.com/user-attachments/assets/cd2e2c94-667d-4fed-8d89-edaf795f9dd7" />
 <img width="757" height="648" alt="image" src="https://github.com/user-attachments/assets/33ff4ba6-4b50-4307-b480-d62bdee60607" />
